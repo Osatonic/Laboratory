@@ -67,60 +67,60 @@ int main()
     first.push_back(TransportSTL("Audi", 160, 4));
 
     // 2. Сортировка по убыванию.
-    sort(
-        first.begin(),
-        first.end(),
-        compDescending
-    );
+    sort(first.begin(), first.end(), compDescending);
 
-    cout << "\n1-2. Первый контейнер после "
+    cout << "
+1-2. Первый контейнер после "
          << "сортировки по убыванию:" << endl;
     printVector(first);
 
     // 3-4. Поиск подходящего элемента.
     vector<TransportSTL>::iterator found =
-        find_if(
-            first.begin(),
-            first.end(),
-            condition
-        );
+        find_if(first.begin(), first.end(), condition);
 
-    cout << "\n3-4. Результат find_if:" << endl;
+    cout << "
+3-4. Результат find_if:" << endl;
 
     if (found != first.end())
-    {
-        cout << "Найден элемент: "
-             << *found << endl;
-    }
+        cout << "Найден элемент: " << *found << endl;
     else
-    {
         cout << "Элемент не найден." << endl;
-    }
 
     // 5. Второй контейнер по варианту: map.
-    // В map переносим все элементы, удовлетворяющие условию.
+    // Сначала используем remove_copy_if, как рекомендует
+    // методичка, чтобы получить только подходящие объекты.
+    vector<TransportSTL> selected;
+
+    remove_copy_if(
+        first.begin(),
+        first.end(),
+        back_inserter(selected),
+        [](const TransportSTL& object)
+        {
+            return !condition(object);
+        }
+    );
+
     map<int, TransportSTL> second;
 
     int key = 1;
 
     for (vector<TransportSTL>::const_iterator it =
-             first.begin();
-         it != first.end();
+             selected.begin();
+         it != selected.end();
          ++it)
     {
-        if (condition(*it))
-        {
-            second[key] = *it;
-            ++key;
-        }
+        second[key] = *it;
+        ++key;
     }
 
-    cout << "\n5-6. Второй контейнер map:" << endl;
+    cout << "
+5-6. Второй контейнер map:" << endl;
     printMap(second);
 
-    // Для merge преобразуем значения map в отсортированную
-    // последовательность. Сам map содержит pair<const int, T>,
-    // поэтому его напрямую с vector<T> объединить нельзя.
+    // Для merge преобразуем значения map в последовательность.
+    // map хранит pair<const int, TransportSTL>, поэтому его
+    // элементы нельзя напрямую слить с vector<TransportSTL>.
     vector<TransportSTL> secondValues;
 
     for (map<int, TransportSTL>::const_iterator it =
@@ -131,24 +131,21 @@ int main()
         secondValues.push_back(it->second);
     }
 
-    // 7. Сортируем оба набора по возрастанию.
+    // 7. Сортируем первый и второй наборы по возрастанию.
     sort(first.begin(), first.end());
+    sort(secondValues.begin(), secondValues.end());
 
-    sort(
-        secondValues.begin(),
-        secondValues.end()
-    );
-
-    cout << "\n7-8. Первый контейнер по возрастанию:"
+    cout << "
+7-8. Первый контейнер по возрастанию:"
          << endl;
     printVector(first);
 
-    cout << "\n7-8. Значения второго map по возрастанию:"
+    cout << "
+7-8. Значения второго map по возрастанию:"
          << endl;
     printVector(secondValues);
 
-    // 9. Третий контейнер получаем слиянием
-    // отсортированных последовательностей.
+    // 9. Третий контейнер получаем слиянием.
     vector<TransportSTL> third;
 
     merge(
@@ -159,7 +156,8 @@ int main()
         back_inserter(third)
     );
 
-    cout << "\n9-10. Третий контейнер после merge:"
+    cout << "
+9-10. Третий контейнер после merge:"
          << endl;
     printVector(third);
 
@@ -172,7 +170,8 @@ int main()
         )
     );
 
-    cout << "\n11. Количество элементов третьего "
+    cout << "
+11. Количество элементов третьего "
          << "контейнера со скоростью >= 180: "
          << count << endl;
 
@@ -184,7 +183,8 @@ int main()
             condition
         );
 
-    cout << "\n12. Есть ли в третьем контейнере "
+    cout << "
+12. Есть ли в третьем контейнере "
          << "элемент со скоростью >= 180? ";
 
     if (check != third.end())
@@ -192,7 +192,8 @@ int main()
     else
         cout << "Нет." << endl;
 
-    cout << "\nРабота программы №3 завершена." << endl;
+    cout << "
+Работа программы №3 завершена." << endl;
 
     return 0;
 }
