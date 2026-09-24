@@ -3,6 +3,7 @@
 #include <map>
 #include <algorithm>
 #include <iterator>
+#include <clocale>
 
 #include "TransportSTL.h"
 
@@ -69,8 +70,8 @@ int main()
     // 2. Сортировка по убыванию.
     sort(first.begin(), first.end(), compDescending);
 
-    cout << "
-1-2. Первый контейнер после "
+    cout << endl;
+    cout << "1-2. Первый контейнер после "
          << "сортировки по убыванию:" << endl;
     printVector(first);
 
@@ -78,8 +79,8 @@ int main()
     vector<TransportSTL>::iterator found =
         find_if(first.begin(), first.end(), condition);
 
-    cout << "
-3-4. Результат find_if:" << endl;
+    cout << endl;
+    cout << "3-4. Результат find_if:" << endl;
 
     if (found != first.end())
         cout << "Найден элемент: " << *found << endl;
@@ -114,8 +115,8 @@ int main()
         ++key;
     }
 
-    cout << "
-5-6. Второй контейнер map:" << endl;
+    cout << endl;
+    cout << "5-6. Второй контейнер map:" << endl;
     printMap(second);
 
     // Для merge преобразуем значения map в последовательность.
@@ -135,13 +136,13 @@ int main()
     sort(first.begin(), first.end());
     sort(secondValues.begin(), secondValues.end());
 
-    cout << "
-7-8. Первый контейнер по возрастанию:"
+    cout << endl;
+    cout << "7-8. Первый контейнер по возрастанию:"
          << endl;
     printVector(first);
 
-    cout << "
-7-8. Значения второго map по возрастанию:"
+    cout << endl;
+    cout << "7-8. Значения второго map по возрастанию:"
          << endl;
     printVector(secondValues);
 
@@ -156,8 +157,8 @@ int main()
         back_inserter(third)
     );
 
-    cout << "
-9-10. Третий контейнер после merge:"
+    cout << endl;
+    cout << "9-10. Третий контейнер после merge:"
          << endl;
     printVector(third);
 
@@ -170,8 +171,8 @@ int main()
         )
     );
 
-    cout << "
-11. Количество элементов третьего "
+    cout << endl;
+    cout << "11. Количество элементов третьего "
          << "контейнера со скоростью >= 180: "
          << count << endl;
 
@@ -183,8 +184,8 @@ int main()
             condition
         );
 
-    cout << "
-12. Есть ли в третьем контейнере "
+    cout << endl;
+    cout << "12. Есть ли в третьем контейнере "
          << "элемент со скоростью >= 180? ";
 
     if (check != third.end())
@@ -192,8 +193,8 @@ int main()
     else
         cout << "Нет." << endl;
 
-    cout << "
-Работа программы №3 завершена." << endl;
+    cout << endl;
+    cout << "Работа программы №3 завершена." << endl;
 
     return 0;
 }
