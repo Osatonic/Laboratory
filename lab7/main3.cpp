@@ -12,7 +12,8 @@ int main()
     // Программа №3: добавляем новые записи в конец файла.
     const char* fileName = "transport.dat";
 
-    ofstream out(fileName, ios::binary | ios::app);
+    ofstream out;
+    out.open(fileName, ios::binary | ios::app);
 
     if (!out)
     {
