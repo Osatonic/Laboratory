@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// Ищем запись по ключевому полю и возвращаем её смещение.
 long find(ifstream& file, const char* key)
 {
     TransportFile object;
