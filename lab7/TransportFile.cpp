@@ -45,6 +45,7 @@ TransportFile& TransportFile::operator=(const TransportFile& other)
 void TransportFile::Input()
 {
     cout << "Введите название транспорта: ";
+    cin.width(50);
     cin >> name;
 
     cout << "Введите скорость: ";
@@ -88,6 +89,7 @@ ostream& operator<<(ostream& out, const TransportFile& object)
 
 istream& operator>>(istream& in, TransportFile& object)
 {
+    in.width(50);
     in >> object.name
        >> object.speed
        >> object.doors;
