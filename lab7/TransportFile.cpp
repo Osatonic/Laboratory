@@ -65,6 +65,16 @@ const char* TransportFile::GetName() const
     return name;
 }
 
+int TransportFile::GetSpeed() const
+{
+    return speed;
+}
+
+int TransportFile::GetDoors() const
+{
+    return doors;
+}
+
 ostream& operator<<(ostream& out, const TransportFile& object)
 {
     out << object.name << " "
