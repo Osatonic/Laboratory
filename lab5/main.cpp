@@ -1,257 +1,167 @@
 #include <iostream>
-
 #include "List.h"
 #include "../lab1/Hospital.h"
 
 using namespace std;
 
 
-int main()
+// =====================================================
+// Общая функция проверки стандартного типа.
+// Для каждого типа проверяются:
+// +, --, копирование, =, ==.
+// =====================================================
+
+template <class T>
+void TestStandardType(const char* title, const T& value)
 {
-    // ==================================================
-    // 1. LIST <char>
-    // ==================================================
-
-    cout << "====================================" << endl;
-    cout << "LIST <char>" << endl;
-    cout << "====================================" << endl;
-
-    List<char> letters;
-
-    letters.Input();
-
     cout << endl;
+    cout << "========================================" << endl;
+    cout << title << endl;
+    cout << "========================================" << endl;
+
+    List<T> list;
+
+    // Добавляем несколько элементов.
+    list = list + value;
+    list = list + value;
+    list = list + value;
+
     cout << "Исходный список: ";
-    letters.Print();
+    list.Print();
 
-    // + — добавить в начало
+    // Проверка +
+    list = list + value;
+    cout << "После operator+: ";
+    list.Print();
 
-    letters = letters + 'X';
+    // Проверка --
+    --list;
+    cout << "После operator--: ";
+    list.Print();
 
-    cout << "После letters + 'X': ";
-    letters.Print();
-
-    // -- — удалить из начала
-
-    --letters;
-
-    cout << "После --letters: ";
-    letters.Print();
-
-
-    // ==================================================
-    // 2. КОНСТРУКТОР КОПИРОВАНИЯ
-    // ==================================================
-
-    cout << endl;
-    cout << "====================================" << endl;
-    cout << "КОНСТРУКТОР КОПИРОВАНИЯ" << endl;
-    cout << "====================================" << endl;
-
-    List<char> copy(letters);
-
-    cout << "Исходный: ";
-    letters.Print();
-
-    cout << "Копия:    ";
+    // Проверка конструктора копирования.
+    List<T> copy(list);
+    cout << "Копия: ";
     copy.Print();
 
-
-    // ==================================================
-    // 3. ОПЕРАТОР =
-    // ==================================================
-
-    cout << endl;
-    cout << "====================================" << endl;
-    cout << "ОПЕРАТОР =" << endl;
-    cout << "====================================" << endl;
-
-    List<char> assigned;
-
-    assigned = letters;
-
-    cout << "assigned: ";
+    // Проверка operator=
+    List<T> assigned;
+    assigned = list;
+    cout << "После operator=: ";
     assigned.Print();
 
-
-    // ==================================================
-    // 4. ОПЕРАТОР ==
-    // ==================================================
-
-    cout << endl;
-    cout << "====================================" << endl;
-    cout << "ОПЕРАТОР ==" << endl;
-    cout << "====================================" << endl;
-
-    if (letters == copy)
-    {
-        cout << "Списки равны." << endl;
-    }
+    // Проверка operator==
+    if (list == copy)
+        cout << "operator==: списки равны." << endl;
     else
-    {
-        cout << "Списки не равны." << endl;
-    }
+        cout << "operator==: списки не равны." << endl;
+}
 
 
-    // ==================================================
-    // 5. LIST <int>
-    // ==================================================
+int main()
+{
+    cout << "========================================" << endl;
+    cout << "       LABORATORY WORK 5" << endl;
+    cout << "       VARIANT 11" << endl;
+    cout << "========================================" << endl;
+
+    // =================================================
+    // 1. CHAR
+    // =================================================
+
+    char ch;
+    cout << endl;
+    cout << "Введите символ для List<char>: ";
+    cin >> ch;
+
+    TestStandardType<char>("LIST <char>", ch);
+
+
+    // =================================================
+    // 2. INT
+    // =================================================
+
+    int number;
+    cout << endl;
+    cout << "Введите целое число для List<int>: ";
+    cin >> number;
+
+    TestStandardType<int>("LIST <int>", number);
+
+
+    // =================================================
+    // 3. REAL TYPE
+    // =================================================
+
+    double real;
+    cout << endl;
+    cout << "Введите вещественное число для List<double>: ";
+    cin >> real;
+
+    TestStandardType<double>("LIST <double>", real);
+
+
+    // =================================================
+    // 4. USER TYPE FROM LABORATORY WORK №1
+    // =================================================
 
     cout << endl;
-    cout << "====================================" << endl;
-    cout << "LIST <int>" << endl;
-    cout << "====================================" << endl;
-
-    List<int> numbers;
-
-    numbers.Input();
-
-    cout << "Исходный список: ";
-    numbers.Print();
-
-    numbers = numbers + 100;
-
-    cout << "После numbers + 100: ";
-    numbers.Print();
-
-    --numbers;
-
-    cout << "После --numbers: ";
-    numbers.Print();
-
-
-    // ==================================================
-    // 6. LIST <double>
-    // ==================================================
-
-    cout << endl;
-    cout << "====================================" << endl;
-    cout << "LIST <double>" << endl;
-    cout << "====================================" << endl;
-
-    List<double> values;
-
-    values.Input();
-
-    cout << "Исходный список: ";
-    values.Print();
-
-    values = values + 9.99;
-
-    cout << "После values + 9.99: ";
-    values.Print();
-
-    --values;
-
-    cout << "После --values: ";
-    values.Print();
-
-
-    // ==================================================
-    // 7. LIST <HOSPITAL>
-    // ==================================================
-
-    cout << endl;
-    cout << "====================================" << endl;
+    cout << "========================================" << endl;
     cout << "LIST <HOSPITAL>" << endl;
-    cout << "====================================" << endl;
+    cout << "========================================" << endl;
+
+    cout << "Введите данные больницы:" << endl;
+    cout << "палаты оборудование детали работники часы фонд состояние" << endl;
+
+    HOSPITAL hospital;
+
+    cin >> hospital;
 
     List<HOSPITAL> hospitals;
 
-    hospitals.Input();
+    // + 
+    hospitals = hospitals + hospital;
+    hospitals = hospitals + hospital;
 
-    cout << endl;
-    cout << "Исходный список больниц:" << endl;
+    cout << "Исходный список больниц: " << endl;
     hospitals.Print();
 
+    // +
+    hospitals = hospitals + hospital;
 
-    // ==================================================
-    // 8. OPERATOR + ДЛЯ HOSPITAL
-    // ==================================================
-
-    cout << endl;
-    cout << "Добавляем новую больницу в начало:" << endl;
-
-    HOSPITAL newHospital(
-        70,
-        35,
-        2800,
-        110,
-        360,
-        850000,
-        "Строительство"
-    );
-
-    hospitals = hospitals + newHospital;
-
-    cout << "После hospitals + newHospital:" << endl;
+    cout << "После operator+: " << endl;
     hospitals.Print();
 
-
-    // ==================================================
-    // 9. OPERATOR -- ДЛЯ HOSPITAL
-    // ==================================================
-
-    cout << endl;
-    cout << "Удаляем первую больницу:" << endl;
-
+    // --
     --hospitals;
 
+    cout << "После operator--: " << endl;
     hospitals.Print();
 
-
-    // ==================================================
-    // 10. КОПИРОВАНИЕ LIST <HOSPITAL>
-    // ==================================================
-
-    cout << endl;
-    cout << "Копирование списка больниц:" << endl;
-
+    // Конструктор копирования
     List<HOSPITAL> hospitalCopy(hospitals);
 
-    cout << "Исходный список:" << endl;
-    hospitals.Print();
-
-    cout << "Копия:" << endl;
+    cout << "Копия списка больниц: " << endl;
     hospitalCopy.Print();
 
-
-    // ==================================================
-    // 11. ОПЕРАТОР = ДЛЯ LIST <HOSPITAL>
-    // ==================================================
-
-    cout << endl;
-    cout << "Присваивание списка больниц:" << endl;
-
+    // =
     List<HOSPITAL> hospitalAssigned;
-
     hospitalAssigned = hospitals;
 
-    cout << "Присвоенный список:" << endl;
+    cout << "После operator=: " << endl;
     hospitalAssigned.Print();
 
-
-    // ==================================================
-    // 12. ОПЕРАТОР == ДЛЯ LIST <HOSPITAL>
-    // ==================================================
-
-    cout << endl;
-    cout << "Проверка равенства списков больниц:" << endl;
-
+    // ==
     if (hospitals == hospitalCopy)
-    {
-        cout << "Списки больниц равны." << endl;
-    }
+        cout << "operator==: списки больниц равны." << endl;
     else
-    {
-        cout << "Списки больниц не равны." << endl;
-    }
+        cout << "operator==: списки больниц не равны." << endl;
 
 
     cout << endl;
-    cout << "====================================" << endl;
+    cout << "========================================" << endl;
     cout << "КОНЕЦ ПРОГРАММЫ" << endl;
-    cout << "====================================" << endl;
+    cout << "========================================" << endl;
 
     return 0;
 }
