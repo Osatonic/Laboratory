@@ -54,6 +54,8 @@ public:
 
     void Show() override = 0;
 
+    const string& GetName() const;
+
     void Add();
 
     static void PrintList();
