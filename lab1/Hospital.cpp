@@ -166,7 +166,8 @@ void HOSPITAL::Set(
 
 void HOSPITAL::Show() const
 {
-    cout << "\n----- ИНФОРМАЦИЯ О БОЛЬНИЦЕ -----" << endl;
+    cout << "
+----- ИНФОРМАЦИЯ О БОЛЬНИЦЕ -----" << endl;
 
     cout << "Количество палат: "
          << wards << endl;
@@ -190,4 +191,88 @@ void HOSPITAL::Show() const
          << constructionState << endl;
 
     cout << "----------------------------------" << endl;
+}
+
+
+// =====================================================
+// ОПЕРАТОР ВЫВОДА
+// Нужен для cout << hospital
+// =====================================================
+
+ostream& operator<<(ostream& out, const HOSPITAL& hospital)
+{
+    out << "{"
+        << "палаты=" << hospital.wards
+        << ", оборудование=" << hospital.equipment
+        << ", детали=" << hospital.details
+        << ", работники=" << hospital.staff
+        << ", часы=" << hospital.workHours
+        << ", фонд=" << hospital.payroll
+        << ", состояние=" << hospital.constructionState
+        << "}";
+
+    return out;
+}
+
+
+// =====================================================
+// ОПЕРАТОР ВВОДА
+// Нужен для cin >> hospital
+//
+// Вводится 7 значений:
+// wards equipment details staff workHours payroll state
+// Например:
+// 50 20 1000 80 300 500000 Строительство
+// =====================================================
+
+istream& operator>>(istream& in, HOSPITAL& hospital)
+{
+    int wards;
+    int equipment;
+    int details;
+    int staff;
+    int workHours;
+    double payroll;
+    string state;
+
+    in >> wards
+       >> equipment
+       >> details
+       >> staff
+       >> workHours
+       >> payroll
+       >> state;
+
+    if (in)
+    {
+        hospital.Set(
+            wards,
+            equipment,
+            details,
+            staff,
+            workHours,
+            payroll,
+            state
+        );
+    }
+
+    return in;
+}
+
+
+// =====================================================
+// ОПЕРАТОР СРАВНЕНИЯ
+// Нужен для List<HOSPITAL>::operator==
+// =====================================================
+
+bool operator==(const HOSPITAL& left, const HOSPITAL& right)
+{
+    return
+        left.wards == right.wards &&
+        left.equipment == right.equipment &&
+        left.details == right.details &&
+        left.staff == right.staff &&
+        left.workHours == right.workHours &&
+        left.payroll == right.payroll &&
+        left.constructionState == right.constructionState;
 }
