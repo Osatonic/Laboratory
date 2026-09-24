@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// Ищем запись перед её заменой.
 long find(fstream& file, const char* key)
 {
     TransportFile object;
