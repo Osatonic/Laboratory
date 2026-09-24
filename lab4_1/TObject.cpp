@@ -2,92 +2,6 @@
 
 
 // =====================================================
-// TTransport
-// =====================================================
-
-TTransport::TTransport(const char* NAME)
-{
-    strcpy(name, NAME);
-}
-
-
-const char* TTransport::GetName() const
-{
-    return name;
-}
-
-
-// =====================================================
-// TCar
-// =====================================================
-
-TCar::TCar(const char* NAME, int WHEELS)
-    : TTransport(NAME)
-{
-    wheels = WHEELS;
-}
-
-
-void TCar::Show()
-{
-    cout << "Автомобиль: "
-         << name
-         << ", колёс: "
-         << wheels
-         << endl;
-}
-
-
-// =====================================================
-// TTrain
-// =====================================================
-
-TTrain::TTrain(const char* NAME, int WAGONS)
-    : TTransport(NAME)
-{
-    wagons = WAGONS;
-}
-
-
-void TTrain::Show()
-{
-    cout << "Поезд: "
-         << name
-         << ", вагонов: "
-         << wagons
-         << endl;
-}
-
-
-// =====================================================
-// TExpress
-// =====================================================
-
-TExpress::TExpress(
-    const char* NAME,
-    int WAGONS,
-    int SPEED
-)
-    : TTrain(NAME, WAGONS)
-{
-    speed = SPEED;
-}
-
-
-void TExpress::Show()
-{
-    cout << "Экспресс: "
-         << name
-         << ", вагонов: "
-         << wagons
-         << ", скорость: "
-         << speed
-         << " км/ч"
-         << endl;
-}
-
-
-// =====================================================
 // TDetail
 // =====================================================
 
@@ -105,9 +19,7 @@ const char* TDetail::GetName() const
 
 void TDetail::Show()
 {
-    cout << "Деталь: "
-         << name
-         << endl;
+    cout << "Деталь: " << name << endl;
 }
 
 
@@ -118,15 +30,9 @@ void TDetail::Show()
 TGroup::TGroup(const char* NAME)
 {
     strcpy(name, NAME);
-
-    // Изначально группа пустая
     last = nullptr;
 }
 
-
-// =====================================================
-// ДЕСТРУКТОР TGroup
-// =====================================================
 
 TGroup::~TGroup()
 {
@@ -136,8 +42,8 @@ TGroup::~TGroup()
     {
         TItem* next = current->next;
 
-        // Удаляем только элемент списка.
-        // Сам объект НЕ удаляем.
+        // Группа не владеет объектами.
+        // Она удаляет только элементы служебного списка.
         delete current;
 
         current = next;
@@ -147,19 +53,11 @@ TGroup::~TGroup()
 }
 
 
-// =====================================================
-// GET NAME
-// =====================================================
-
 const char* TGroup::GetName() const
 {
     return name;
 }
 
-
-// =====================================================
-// INSERT
-// =====================================================
 
 void TGroup::Insert(TObject* p)
 {
@@ -170,26 +68,16 @@ void TGroup::Insert(TObject* p)
 
     TItem* newItem = new TItem(p);
 
-    // Добавляем элемент в начало списка
     newItem->next = last;
-
     last = newItem;
 }
 
-
-// =====================================================
-// EMPTY
-// =====================================================
 
 bool TGroup::Empty() const
 {
     return last == nullptr;
 }
 
-
-// =====================================================
-// SHOW ITEMS
-// =====================================================
 
 void TGroup::ShowItems() const
 {
@@ -204,7 +92,6 @@ void TGroup::ShowItems() const
     while (current != nullptr)
     {
         current->item->Show();
-
         current = current->next;
     }
 }
@@ -222,15 +109,9 @@ TNode::TNode(const char* NAME)
 
 void TNode::Show()
 {
-    cout << "Узел: "
-         << name
-         << endl;
+    cout << "Узел: " << name << endl;
 }
 
-
-// =====================================================
-// ИТЕРАТОР TNode
-// =====================================================
 
 void TNode::ForEach(PF action)
 {
@@ -243,10 +124,7 @@ void TNode::ForEach(PF action)
 
     while (current != nullptr)
     {
-        // Выполняем переданную функцию
-        // для текущего объекта
         action(current->item);
-
         current = current->next;
     }
 }
@@ -264,15 +142,9 @@ TMechanism::TMechanism(const char* NAME)
 
 void TMechanism::Show()
 {
-    cout << "Механизм: "
-         << name
-         << endl;
+    cout << "Механизм: " << name << endl;
 }
 
-
-// =====================================================
-// ИТЕРАТОР TMechanism
-// =====================================================
 
 void TMechanism::ForEach(PF action)
 {
@@ -285,17 +157,14 @@ void TMechanism::ForEach(PF action)
 
     while (current != nullptr)
     {
-        // Выполняем переданную функцию
-        // для текущего объекта
         action(current->item);
-
         current = current->next;
     }
 }
 
 
 // =====================================================
-// ФУНКЦИЯ ВАРИАНТА №11
+// ВАРИАНТ №11
 // =====================================================
 
 void PrintName(TObject* p)
@@ -305,48 +174,30 @@ void PrintName(TObject* p)
         return;
     }
 
-
-    // ================================================
-    // Если это деталь
-    // ================================================
-
-    TDetail* detail =
-        dynamic_cast<TDetail*>(p);
+    // Для деталей выводим название детали.
+    TDetail* detail = dynamic_cast<TDetail*>(p);
 
     if (detail != nullptr)
     {
         cout << detail->GetName() << endl;
-
         return;
     }
 
-
-    // ================================================
-    // Если это группа
-    // ================================================
-
-    TGroup* group =
-        dynamic_cast<TGroup*>(p);
+    // Для узлов/механизмов выводим название группы.
+    TGroup* group = dynamic_cast<TGroup*>(p);
 
     if (group != nullptr)
     {
         cout << group->GetName() << endl;
-
         return;
     }
 
-
-    // ================================================
-    // Если это транспорт
-    // ================================================
-
-    TTransport* transport =
-        dynamic_cast<TTransport*>(p);
+    // Для объектов из ЛР3 (Car/Train/Express)
+    // используем их общий базовый класс Transport.
+    Transport* transport = dynamic_cast<Transport*>(p);
 
     if (transport != nullptr)
     {
-        cout << transport->GetName() << endl;
-
-        return;
+        cout << "Транспорт: " << transport->GetName() << endl;
     }
 }
