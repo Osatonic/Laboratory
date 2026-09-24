@@ -190,3 +190,9 @@ bool List::operator!=(const List& other) const
 
     return false;
 }
+
+// Возвращает количество элементов списка.
+int List::GetSize() const
+{
+    return size;
+}
