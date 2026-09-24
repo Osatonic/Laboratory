@@ -46,6 +46,36 @@ add_executable(lab6
         lab6/main.cpp
         lab6/List.cpp
         lab6/List.h
-
 )
 
+add_executable(lab7_1
+        lab7/main1.cpp
+        lab7/TransportFile.cpp
+        lab7/TransportFile.h
+        lab7/Manipulator.h
+)
+
+add_executable(lab7_2
+        lab7/main2.cpp
+        lab7/TransportFile.cpp
+        lab7/TransportFile.h
+        lab7/Manipulator.h
+)
+
+add_executable(lab7_3
+        lab7/main3.cpp
+        lab7/TransportFile.cpp
+        lab7/TransportFile.h
+)
+
+add_executable(lab7_4
+        lab7/main4.cpp
+        lab7/TransportFile.cpp
+        lab7/TransportFile.h
+)
+
+add_executable(lab7_5
+        lab7/main5.cpp
+        lab7/TransportFile.cpp
+        lab7/TransportFile.h
+)
