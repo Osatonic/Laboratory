@@ -33,6 +33,12 @@ Transport::~Transport()
 }
 
 
+const string& Transport::GetName() const
+{
+    return name;
+}
+
+
 // Ручное добавление объекта в список
 void Transport::Add()
 {
