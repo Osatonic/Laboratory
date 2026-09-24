@@ -31,6 +31,8 @@ add_executable(lab4_1
         lab4_1/main.cpp
         lab4_1/TObject.cpp
         lab4_1/TObject.h
+        lab3/Transport.cpp
+        lab3/Transport.h
 )
 
 add_executable(lab5
