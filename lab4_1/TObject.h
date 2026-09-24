@@ -14,15 +14,18 @@ using namespace std;
 class TObject
 {
 public:
+    // Чистая виртуальная функция.
+    // Благодаря ей TObject является абстрактным классом.
     virtual void Show() = 0;
 
+    // Виртуальный деструктор.
     virtual ~TObject() {}
 };
 
 
 // =====================================================
-// ЛАБОРАТОРНАЯ РАБОТА №3
 // ТРАНСПОРТНОЕ СРЕДСТВО
+// Идея из лабораторной работы №3
 // =====================================================
 
 class TTransport : public TObject
@@ -35,8 +38,9 @@ public:
 
     virtual ~TTransport() {}
 
-    const char* GetName();
+    const char* GetName() const;
 
+    // Транспорт является абстрактным.
     void Show() override = 0;
 };
 
@@ -75,6 +79,7 @@ public:
 
 // =====================================================
 // ЭКСПРЕСС
+// Экспресс является поездом
 // =====================================================
 
 class TExpress : public TTrain
@@ -105,7 +110,7 @@ protected:
 public:
     TDetail(const char* NAME);
 
-    const char* GetName();
+    const char* GetName() const;
 
     void Show() override;
 };
@@ -129,6 +134,15 @@ struct TItem
 
 
 // =====================================================
+// УКАЗАТЕЛЬ НА ФУНКЦИЮ-ОБРАБОТЧИК
+// =====================================================
+
+// Такая функция получает один объект группы
+// и выполняет над ним нужное действие.
+typedef void (*PF)(TObject*);
+
+
+// =====================================================
 // АБСТРАКТНАЯ ГРУППА
 // =====================================================
 
@@ -137,7 +151,7 @@ class TGroup : public TObject
 protected:
     char name[50];
 
-    // Указатель на начало списка TItem
+    // Начало связанного списка объектов группы
     TItem* last;
 
 public:
@@ -145,16 +159,20 @@ public:
 
     virtual ~TGroup();
 
-    const char* GetName();
+    const char* GetName() const;
 
+    // Добавить объект в группу
     void Insert(TObject* p);
 
-    bool Empty();
+    // Проверить, пуста ли группа
+    bool Empty() const;
 
-    void ShowItems();
+    // Показать непосредственные элементы группы
+    void ShowItems() const;
 
-    // Итератор
-    virtual void ForEach() = 0;
+    // Метод-итератор.
+    // Для каждого элемента вызывает переданную функцию.
+    virtual void ForEach(PF action) = 0;
 };
 
 
@@ -169,7 +187,7 @@ public:
 
     void Show() override;
 
-    void ForEach() override;
+    void ForEach(PF action) override;
 };
 
 
@@ -184,7 +202,7 @@ public:
 
     void Show() override;
 
-    void ForEach() override;
+    void ForEach(PF action) override;
 };
 
 
@@ -192,6 +210,8 @@ public:
 // ФУНКЦИЯ ДЛЯ ВАРИАНТА №11
 // =====================================================
 
+// Выводит название любого объекта,
+// который может находиться в группе.
 void PrintName(TObject* p);
 
 #endif

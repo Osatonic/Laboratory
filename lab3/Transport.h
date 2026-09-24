@@ -28,17 +28,21 @@ protected:
     string name;
     int speed;
 
-    // Начало общего списка объектов
+    // Указатель на начало общего списка
     static Node* begin;
 
 public:
-    Transport(string n, int s);
+    // Конструктор.
+    // autoAdd = true означает автоматическое добавление в список.
+    Transport(string n = "", int s = 0, bool autoAdd = false);
+
+    // Виртуальный деструктор
     virtual ~Transport();
 
     // Чистая виртуальная функция
     virtual void Show() = 0;
 
-    // Добавление объекта в список
+    // Ручное добавление объекта в список
     void Add();
 
     // Просмотр всего списка
@@ -56,7 +60,7 @@ protected:
     int doors;
 
 public:
-    Car(string n, int s, int d);
+    Car(string n = "", int s = 0, int d = 0, bool autoAdd = false);
 
     void Show() override;
 };
@@ -69,7 +73,7 @@ protected:
     int wagons;
 
 public:
-    Train(string n, int s, int w);
+    Train(string n = "", int s = 0, int w = 0, bool autoAdd = false);
 
     void Show() override;
 };
@@ -82,7 +86,8 @@ protected:
     bool highSpeed;
 
 public:
-    Express(string n, int s, int w, bool hs);
+    Express(string n = "", int s = 0, int w = 0,
+            bool hs = false, bool autoAdd = false);
 
     void Show() override;
 };

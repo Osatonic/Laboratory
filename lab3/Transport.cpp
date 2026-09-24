@@ -7,26 +7,38 @@ using namespace std;
 Node* Transport::begin = nullptr;
 
 
-// Конструктор Transport
-Transport::Transport(string n, int s)
+// Конструктор базового класса
+Transport::Transport(string n, int s, bool autoAdd)
 {
     name = n;
     speed = s;
+
+    cout << "Transport constructor: " << name << endl;
+
+    // Автоматическое добавление в список
+    if (autoAdd)
+    {
+        Add();
+    }
 }
 
 
-// Деструктор
+// Виртуальный деструктор
 Transport::~Transport()
 {
+    cout << "Transport destructor: " << name << endl;
+
+    // Удаляем объект из списка
     Remove();
 }
 
 
-// Добавление объекта в список
+// Ручное добавление объекта в список
 void Transport::Add()
 {
     Node* newNode = new Node(this);
 
+    // Добавляем в начало списка
     newNode->next = begin;
     begin = newNode;
 }
@@ -40,8 +52,10 @@ void Transport::Remove()
 
     while (current != nullptr)
     {
+        // Нашли объект
         if (current->object == this)
         {
+            // Если это первый элемент
             if (previous == nullptr)
             {
                 begin = current->next;
@@ -66,69 +80,87 @@ void Transport::PrintList()
 {
     Node* current = begin;
 
-    cout << "\n===== LIST =====\n";
+    cout << "\n=================================\n";
+    cout << "        TRANSPORT LIST\n";
+    cout << "=================================\n";
 
     while (current != nullptr)
     {
+        // Благодаря virtual здесь вызывается
+        // Show() именно нужного класса
         current->object->Show();
+
         current = current->next;
     }
 
-    cout << "================\n";
+    cout << "=================================\n";
 }
 
 
-// Конструктор автомобиля
-Car::Car(string n, int s, int d)
-    : Transport(n, s)
+// ================================
+// Car
+// ================================
+
+Car::Car(string n, int s, int d, bool autoAdd)
+    : Transport(n, s, autoAdd)
 {
     doors = d;
+
+    cout << "Car constructor: " << name << endl;
 }
 
 
-// Вывод автомобиля
 void Car::Show()
 {
     cout << "Car: "
-         << name
+         << "name = " << name
          << ", speed = " << speed
          << ", doors = " << doors
          << endl;
 }
 
 
-// Конструктор поезда
-Train::Train(string n, int s, int w)
-    : Transport(n, s)
+// ================================
+// Train
+// ================================
+
+Train::Train(string n, int s, int w, bool autoAdd)
+    : Transport(n, s, autoAdd)
 {
     wagons = w;
+
+    cout << "Train constructor: " << name << endl;
 }
 
 
-// Вывод поезда
 void Train::Show()
 {
     cout << "Train: "
-         << name
+         << "name = " << name
          << ", speed = " << speed
          << ", wagons = " << wagons
          << endl;
 }
 
 
-// Конструктор экспресса
-Express::Express(string n, int s, int w, bool hs)
-    : Train(n, s, w)
+// ================================
+// Express
+// ================================
+
+Express::Express(string n, int s, int w,
+                 bool hs, bool autoAdd)
+    : Train(n, s, w, autoAdd)
 {
     highSpeed = hs;
+
+    cout << "Express constructor: " << name << endl;
 }
 
 
-// Вывод экспресса
 void Express::Show()
 {
     cout << "Express: "
-         << name
+         << "name = " << name
          << ", speed = " << speed
          << ", wagons = " << wagons
          << ", high speed = ";

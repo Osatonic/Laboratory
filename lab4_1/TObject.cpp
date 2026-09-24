@@ -11,7 +11,7 @@ TTransport::TTransport(const char* NAME)
 }
 
 
-const char* TTransport::GetName()
+const char* TTransport::GetName() const
 {
     return name;
 }
@@ -97,7 +97,7 @@ TDetail::TDetail(const char* NAME)
 }
 
 
-const char* TDetail::GetName()
+const char* TDetail::GetName() const
 {
     return name;
 }
@@ -119,13 +119,13 @@ TGroup::TGroup(const char* NAME)
 {
     strcpy(name, NAME);
 
-    // Вначале группа пустая
+    // Изначально группа пустая
     last = nullptr;
 }
 
 
 // =====================================================
-// ДЕСТРУКТОР ГРУППЫ
+// ДЕСТРУКТОР TGroup
 // =====================================================
 
 TGroup::~TGroup()
@@ -136,6 +136,8 @@ TGroup::~TGroup()
     {
         TItem* next = current->next;
 
+        // Удаляем только элемент списка.
+        // Сам объект НЕ удаляем.
         delete current;
 
         current = next;
@@ -146,23 +148,29 @@ TGroup::~TGroup()
 
 
 // =====================================================
-// ПОЛУЧИТЬ НАЗВАНИЕ ГРУППЫ
+// GET NAME
 // =====================================================
 
-const char* TGroup::GetName()
+const char* TGroup::GetName() const
 {
     return name;
 }
 
 
 // =====================================================
-// ДОБАВИТЬ ОБЪЕКТ В ГРУППУ
+// INSERT
 // =====================================================
 
 void TGroup::Insert(TObject* p)
 {
+    if (p == nullptr)
+    {
+        return;
+    }
+
     TItem* newItem = new TItem(p);
 
+    // Добавляем элемент в начало списка
     newItem->next = last;
 
     last = newItem;
@@ -170,21 +178,27 @@ void TGroup::Insert(TObject* p)
 
 
 // =====================================================
-// ПРОВЕРИТЬ, ПУСТА ЛИ ГРУППА
+// EMPTY
 // =====================================================
 
-bool TGroup::Empty()
+bool TGroup::Empty() const
 {
     return last == nullptr;
 }
 
 
 // =====================================================
-// ПОКАЗАТЬ ВСЕ ОБЪЕКТЫ
+// SHOW ITEMS
 // =====================================================
 
-void TGroup::ShowItems()
+void TGroup::ShowItems() const
 {
+    if (Empty())
+    {
+        cout << "Группа пуста." << endl;
+        return;
+    }
+
     TItem* current = last;
 
     while (current != nullptr)
@@ -215,16 +229,23 @@ void TNode::Show()
 
 
 // =====================================================
-// ИТЕРАТОР УЗЛА
+// ИТЕРАТОР TNode
 // =====================================================
 
-void TNode::ForEach()
+void TNode::ForEach(PF action)
 {
+    if (action == nullptr)
+    {
+        return;
+    }
+
     TItem* current = last;
 
     while (current != nullptr)
     {
-        PrintName(current->item);
+        // Выполняем переданную функцию
+        // для текущего объекта
+        action(current->item);
 
         current = current->next;
     }
@@ -250,16 +271,23 @@ void TMechanism::Show()
 
 
 // =====================================================
-// ИТЕРАТОР МЕХАНИЗМА
+// ИТЕРАТОР TMechanism
 // =====================================================
 
-void TMechanism::ForEach()
+void TMechanism::ForEach(PF action)
 {
+    if (action == nullptr)
+    {
+        return;
+    }
+
     TItem* current = last;
 
     while (current != nullptr)
     {
-        PrintName(current->item);
+        // Выполняем переданную функцию
+        // для текущего объекта
+        action(current->item);
 
         current = current->next;
     }
@@ -272,6 +300,16 @@ void TMechanism::ForEach()
 
 void PrintName(TObject* p)
 {
+    if (p == nullptr)
+    {
+        return;
+    }
+
+
+    // ================================================
+    // Если это деталь
+    // ================================================
+
     TDetail* detail =
         dynamic_cast<TDetail*>(p);
 
@@ -282,6 +320,10 @@ void PrintName(TObject* p)
         return;
     }
 
+
+    // ================================================
+    // Если это группа
+    // ================================================
 
     TGroup* group =
         dynamic_cast<TGroup*>(p);
@@ -294,11 +336,17 @@ void PrintName(TObject* p)
     }
 
 
+    // ================================================
+    // Если это транспорт
+    // ================================================
+
     TTransport* transport =
         dynamic_cast<TTransport*>(p);
 
     if (transport != nullptr)
     {
         cout << transport->GetName() << endl;
+
+        return;
     }
 }

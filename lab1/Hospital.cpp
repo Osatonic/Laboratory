@@ -1,4 +1,4 @@
-#include "../Hospital.h"
+#include "Hospital.h"
 
 // Конструктор без параметров
 HOSPITAL::HOSPITAL()
