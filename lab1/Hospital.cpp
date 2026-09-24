@@ -166,8 +166,8 @@ void HOSPITAL::Set(
 
 void HOSPITAL::Show() const
 {
-    cout << "
------ ИНФОРМАЦИЯ О БОЛЬНИЦЕ -----" << endl;
+    cout << endl;
+    cout << "----- ИНФОРМАЦИЯ О БОЛЬНИЦЕ -----" << endl;
 
     cout << "Количество палат: "
          << wards << endl;
