@@ -4,98 +4,10 @@
 #include <iostream>
 #include <cstring>
 
+// В ЛР4_1 используется ИМЕННО иерархия транспорта из ЛР3.
+#include "../lab3/Transport.h"
+
 using namespace std;
-
-
-// =====================================================
-// БАЗОВЫЙ АБСТРАКТНЫЙ КЛАСС
-// =====================================================
-
-class TObject
-{
-public:
-    // Чистая виртуальная функция.
-    // Благодаря ей TObject является абстрактным классом.
-    virtual void Show() = 0;
-
-    // Виртуальный деструктор.
-    virtual ~TObject() {}
-};
-
-
-// =====================================================
-// ТРАНСПОРТНОЕ СРЕДСТВО
-// Идея из лабораторной работы №3
-// =====================================================
-
-class TTransport : public TObject
-{
-protected:
-    char name[50];
-
-public:
-    TTransport(const char* NAME);
-
-    virtual ~TTransport() {}
-
-    const char* GetName() const;
-
-    // Транспорт является абстрактным.
-    void Show() override = 0;
-};
-
-
-// =====================================================
-// АВТОМОБИЛЬ
-// =====================================================
-
-class TCar : public TTransport
-{
-protected:
-    int wheels;
-
-public:
-    TCar(const char* NAME, int WHEELS);
-
-    void Show() override;
-};
-
-
-// =====================================================
-// ПОЕЗД
-// =====================================================
-
-class TTrain : public TTransport
-{
-protected:
-    int wagons;
-
-public:
-    TTrain(const char* NAME, int WAGONS);
-
-    void Show() override;
-};
-
-
-// =====================================================
-// ЭКСПРЕСС
-// Экспресс является поездом
-// =====================================================
-
-class TExpress : public TTrain
-{
-protected:
-    int speed;
-
-public:
-    TExpress(
-        const char* NAME,
-        int WAGONS,
-        int SPEED
-    );
-
-    void Show() override;
-};
 
 
 // =====================================================
@@ -117,7 +29,7 @@ public:
 
 
 // =====================================================
-// ЭЛЕМЕНТ СВЯЗАННОГО СПИСКА
+// ЭЛЕМЕНТ СВЯЗАННОГО СПИСКА ГРУППЫ
 // =====================================================
 
 struct TItem
@@ -133,12 +45,7 @@ struct TItem
 };
 
 
-// =====================================================
-// УКАЗАТЕЛЬ НА ФУНКЦИЮ-ОБРАБОТЧИК
-// =====================================================
-
-// Такая функция получает один объект группы
-// и выполняет над ним нужное действие.
+// Указатель на функцию-обработчик
 typedef void (*PF)(TObject*);
 
 
@@ -150,28 +57,18 @@ class TGroup : public TObject
 {
 protected:
     char name[50];
-
-    // Начало связанного списка объектов группы
     TItem* last;
 
 public:
     TGroup(const char* NAME);
-
     virtual ~TGroup();
 
     const char* GetName() const;
 
-    // Добавить объект в группу
     void Insert(TObject* p);
-
-    // Проверить, пуста ли группа
     bool Empty() const;
-
-    // Показать непосредственные элементы группы
     void ShowItems() const;
 
-    // Метод-итератор.
-    // Для каждого элемента вызывает переданную функцию.
     virtual void ForEach(PF action) = 0;
 };
 
@@ -186,7 +83,6 @@ public:
     TNode(const char* NAME);
 
     void Show() override;
-
     void ForEach(PF action) override;
 };
 
@@ -201,17 +97,12 @@ public:
     TMechanism(const char* NAME);
 
     void Show() override;
-
     void ForEach(PF action) override;
 };
 
 
-// =====================================================
-// ФУНКЦИЯ ДЛЯ ВАРИАНТА №11
-// =====================================================
-
-// Выводит название любого объекта,
-// который может находиться в группе.
+// Запрос варианта №11:
+// наименование всех деталей (узлов), входящих в заданный узел.
 void PrintName(TObject* p);
 
 #endif
