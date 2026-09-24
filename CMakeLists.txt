@@ -79,3 +79,21 @@ add_executable(lab7_5
         lab7/TransportFile.cpp
         lab7/TransportFile.h
 )
+
+add_executable(lab8_1
+        lab8/main1.cpp
+)
+
+add_executable(lab8_2
+        lab8/main2.cpp
+        lab8/TransportSTL.cpp
+        lab8/TransportSTL.h
+        lab7/TransportFile.cpp
+        lab7/TransportFile.h
+)
+
+add_executable(lab8_3
+        lab8/main3.cpp
+        lab8/TransportSTL.cpp
+        lab8/TransportSTL.h
+)
