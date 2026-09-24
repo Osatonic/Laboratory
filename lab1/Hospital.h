@@ -69,6 +69,12 @@ public:
 
     // Вывод информации
     void Show() const;
+
+    // Операторы, необходимые для использования
+    // HOSPITAL внутри шаблонного списка
+    friend ostream& operator<<(ostream& out, const HOSPITAL& hospital);
+    friend istream& operator>>(istream& in, HOSPITAL& hospital);
+    friend bool operator==(const HOSPITAL& left, const HOSPITAL& right);
 };
 
 #endif
