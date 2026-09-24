@@ -9,6 +9,7 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
+    // Программа №3: добавляем новые записи в конец файла.
     const char* fileName = "transport.dat";
 
     ofstream out(fileName, ios::binary | ios::app);
