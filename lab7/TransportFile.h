@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstring>
 
+// Данные класса хранятся в фиксированном формате для бинарного файла.
+
 using namespace std;
 
 class TransportFile
