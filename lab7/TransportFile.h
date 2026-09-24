@@ -25,6 +25,8 @@ public:
     void Show() const;
 
     const char* GetName() const;
+    int GetSpeed() const;
+    int GetDoors() const;
 
     friend ostream& operator<<(ostream& out, const TransportFile& object);
     friend istream& operator>>(istream& in, TransportFile& object);
