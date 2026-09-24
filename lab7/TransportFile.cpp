@@ -1,5 +1,7 @@
 #include "TransportFile.h"
 
+// Реализация класса, который записывается в transport.dat.
+
 using namespace std;
 
 TransportFile::TransportFile()
