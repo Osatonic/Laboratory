@@ -45,6 +45,7 @@ public:
 
     // Проверка списков на неравенство.
     bool operator!=(const List& other) const;
+    int GetSize() const;
 };
 
 #endif
