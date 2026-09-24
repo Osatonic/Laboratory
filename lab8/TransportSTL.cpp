@@ -1,5 +1,7 @@
 #include "TransportSTL.h"
 
+// Операции сравнения нужны алгоритмам STL.
+
 using namespace std;
 
 TransportSTL::TransportSTL(string n, int s, int d)
