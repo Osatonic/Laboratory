@@ -10,6 +10,7 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
+    // Программа №2: читаем файл в динамический массив объектов.
     const char* fileName = "transport.dat";
 
     ifstream in(fileName, ios::binary);
