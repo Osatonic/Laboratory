@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <streambuf>
 #include <cstring>
 #include <cstdio>
 
@@ -8,7 +9,7 @@
 using namespace std;
 
 // Ищем запись по ключевому полю и возвращаем её смещение.
-long find(ifstream& file, const char* key)
+long find(istream& file, const char* key)
 {
     TransportFile object;
 
@@ -84,16 +85,17 @@ int main()
     cout << "Введите название транспорта для удаления: ";
     cin >> key;
 
-    ifstream file(fileName, ios::binary);
-
-    if (!file)
+    // Третий способ: отдельно открываем filebuf и связываем его с istream.
+    filebuf buffer;
+    if (!buffer.open(fileName, ios::in | ios::binary))
     {
         cerr << "Не удалось открыть файл!" << endl;
         return 1;
     }
 
+    istream file(&buffer);
     long position = find(file, key);
-    file.close();
+    buffer.close();
 
     if (position == -1)
     {
