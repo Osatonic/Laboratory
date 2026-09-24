@@ -41,3 +41,11 @@ add_executable(lab5
         lab1/Hospital.cpp
         lab1/Hospital.h
 )
+
+add_executable(lab6
+        lab6/main.cpp
+        lab6/List.cpp
+        lab6/List.h
+
+)
+
