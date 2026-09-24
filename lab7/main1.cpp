@@ -9,6 +9,7 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
+    // Программа №1: создаём бинарный файл и записываем минимум 5 объектов.
     const char* fileName = "transport.dat";
 
     ofstream out(fileName, ios::binary);
