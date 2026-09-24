@@ -1,23 +1,16 @@
 #include "List.h"
+#include <stdexcept>
 
 using namespace std;
 
-
-// ============================================
-// КОНСТРУКТОР
-// ============================================
-
+// Создаёт пустой список.
 List::List()
 {
     head = nullptr;
     size = 0;
 }
 
-
-// ============================================
-// КОНСТРУКТОР КОПИРОВАНИЯ
-// ============================================
-
+// Глубокая копия списка: создаются новые узлы.
 List::List(const List& other)
 {
     head = nullptr;
@@ -32,26 +25,16 @@ List::List(const List& other)
     }
 }
 
-
-// ============================================
-// ДЕСТРУКТОР
-// ============================================
-
 List::~List()
 {
     clear();
 }
 
-
-// ============================================
-// ДОБАВЛЕНИЕ В КОНЕЦ
-// ============================================
-
+// Добавляет символ в конец списка.
 void List::pushBack(char value)
 {
     Node* newNode = new Node(value);
 
-    // Если список пуст
     if (head == nullptr)
     {
         head = newNode;
@@ -60,24 +43,18 @@ void List::pushBack(char value)
     {
         Node* current = head;
 
-        // Идём до последнего элемента
         while (current->next != nullptr)
         {
             current = current->next;
         }
 
-        // Последний элемент теперь указывает на новый
         current->next = newNode;
     }
 
     size++;
 }
 
-
-// ============================================
-// УДАЛЕНИЕ ВСЕХ ЭЛЕМЕНТОВ
-// ============================================
-
+// Освобождает все узлы списка.
 void List::clear()
 {
     Node* current = head;
@@ -85,20 +62,13 @@ void List::clear()
     while (current != nullptr)
     {
         Node* nextNode = current->next;
-
         delete current;
-
         current = nextNode;
     }
 
     head = nullptr;
     size = 0;
 }
-
-
-// ============================================
-// ВВОД
-// ============================================
 
 void List::Input()
 {
@@ -114,18 +84,11 @@ void List::Input()
         cin >> value;
 
         if (value == '#')
-        {
             break;
-        }
 
         pushBack(value);
     }
 }
-
-
-// ============================================
-// ВЫВОД
-// ============================================
 
 void List::Print() const
 {
@@ -138,9 +101,7 @@ void List::Print() const
         cout << current->data;
 
         if (current->next != nullptr)
-        {
             cout << " -> ";
-        }
 
         current = current->next;
     }
@@ -148,102 +109,72 @@ void List::Print() const
     cout << "]" << endl;
 }
 
-
-// ============================================
-// ОПЕРАТОР ПРИСВАИВАНИЯ
-// ============================================
-
+// Глубокое присваивание с защитой от A = A.
 List& List::operator=(const List& other)
 {
-    // Защита от A = A
     if (this == &other)
-    {
         return *this;
-    }
 
-    // Удаляем старые данные
     clear();
 
-    // Копируем новый список
     Node* current = other.head;
 
     while (current != nullptr)
     {
         pushBack(current->data);
-
         current = current->next;
     }
 
     return *this;
 }
 
-
-// ============================================
-// ОПЕРАТОР []
-// ============================================
-
+// Возвращает ссылку на символ в заданной позиции.
 char& List::operator[](int index)
 {
     if (index < 0 || index >= size)
     {
-        throw out_of_range("Индекс находится за пределами списка.");
+        throw out_of_range(
+            "Индекс находится за пределами списка."
+        );
     }
 
     Node* current = head;
 
     for (int i = 0; i < index; i++)
-    {
         current = current->next;
-    }
 
     return current->data;
 }
 
-
-// ============================================
-// ОПЕРАТОР +
-// ============================================
-
+// Вариант 11: объединение двух списков.
 List List::operator+(const List& other) const
 {
     List result;
 
     Node* current = head;
 
-    // Копируем первый список
     while (current != nullptr)
     {
         result.pushBack(current->data);
-
         current = current->next;
     }
 
     current = other.head;
 
-    // Добавляем второй список
     while (current != nullptr)
     {
         result.pushBack(current->data);
-
         current = current->next;
     }
 
     return result;
 }
 
-
-// ============================================
-// ОПЕРАТОР !=
-// ============================================
-
+// Вариант 11: проверка списков на неравенство.
 bool List::operator!=(const List& other) const
 {
-    // Если размеры разные,
-    // списки точно не равны
     if (size != other.size)
-    {
         return true;
-    }
 
     Node* first = head;
     Node* second = other.head;
@@ -251,9 +182,7 @@ bool List::operator!=(const List& other) const
     while (first != nullptr)
     {
         if (first->data != second->data)
-        {
             return true;
-        }
 
         first = first->next;
         second = second->next;
