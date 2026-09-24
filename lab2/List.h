@@ -2,14 +2,13 @@
 #define LIST_H
 
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 
 class List
 {
 private:
-
-    // Один элемент списка
     struct Node
     {
         char data;
@@ -22,45 +21,29 @@ private:
         }
     };
 
-    // Указатель на первый элемент
     Node* head;
-
-    // Количество элементов
     int size;
 
-    // Вспомогательная функция добавления элемента
     void pushBack(char value);
-
-    // Удаление всех элементов
     void clear();
 
 public:
-
-    // Конструктор без параметров
     List();
-
-    // Конструктор копирования
     List(const List& other);
-
-    // Деструктор
     ~List();
 
-    // Ввод
     void Input();
-
-    // Вывод
     void Print() const;
 
-    // Перегрузка присваивания
     List& operator=(const List& other);
 
-    // Перегрузка []
+    // Доступ к элементу списка по индексу.
     char& operator[](int index);
 
-    // Перегрузка +
+    // Объединение двух списков.
     List operator+(const List& other) const;
 
-    // Перегрузка !=
+    // Проверка списков на неравенство.
     bool operator!=(const List& other) const;
 };
 
