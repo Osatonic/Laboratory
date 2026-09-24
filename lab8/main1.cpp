@@ -42,6 +42,7 @@ int main()
     cout << "Вариант 11: vector / map / double" << endl;
     cout << "========================================" << endl;
 
+    // Вариант 11: первый контейнер vector, второй map, тип double.
     // 1. Первый контейнер по варианту: vector<double>.
     vector<double> first;
 
