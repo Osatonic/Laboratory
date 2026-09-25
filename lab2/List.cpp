@@ -25,6 +25,14 @@ List::List(const List& other)
     }
 }
 
+List::List(List&& other) {
+    head = other.head;
+    size = other.size;
+
+    other.head = nullptr;
+    other.size = 0;
+}
+
 List::~List()
 {
     clear();
@@ -84,7 +92,7 @@ void List::Input()
         cin >> value;
 
         if (value == '#')
-            break;
+               break;
 
         pushBack(value);
     }
@@ -110,6 +118,7 @@ void List::Print() const
 }
 
 // Глубокое присваивание с защитой от A = A.
+/*
 List& List::operator=(const List& other)
 {
     if (this == &other)
@@ -123,6 +132,24 @@ List& List::operator=(const List& other)
     {
         pushBack(current->data);
         current = current->next;
+    }
+
+    return *this;
+}
+
+*/
+
+List& List::operator=(List&& other)
+{
+    if (this != &other)
+    {
+        clear();
+
+        head = other.head;
+        size = other.size;
+
+        other.head = nullptr;
+        other.size = 0;
     }
 
     return *this;
@@ -149,17 +176,9 @@ char& List::operator[](int index)
 // Вариант 11: объединение двух списков.
 List List::operator+(const List& other) const
 {
-    List result;
+    List result(*this);
 
-    Node* current = head;
-
-    while (current != nullptr)
-    {
-        result.pushBack(current->data);
-        current = current->next;
-    }
-
-    current = other.head;
+    Node* current = other.head;
 
     while (current != nullptr)
     {
@@ -176,8 +195,23 @@ bool List::operator!=(const List& other) const
     if (size != other.size)
         return true;
 
-    Node* first = head;
-    Node* second = other.head;
+    /*List first(*this);
+    List second(other);
+
+    //Node* firstNode = first.head;
+    Node* secondNode = second.head;
+
+    while (firstNode != nullptr)
+    {
+        if (firstNode->data != secondNode->data)
+            return true;
+
+        firstNode = firstNode->next;
+        secondNode = secondNode->next;
+    } */
+
+    auto first = head;
+    auto second = other.head;
 
     while (first != nullptr)
     {

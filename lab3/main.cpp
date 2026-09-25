@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     cout << "=================================\n";
-    cout << "       LABORATORY WORK 3\n";
+    cout << "       ЛАБОРАТОРНАЯ РАБОТА №3\n";
     cout << "=================================\n\n";
 
 

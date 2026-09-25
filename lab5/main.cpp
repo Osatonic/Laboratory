@@ -61,8 +61,7 @@ void TestStandardType(const char* title, const T& value)
 int main()
 {
     cout << "========================================" << endl;
-    cout << "       LABORATORY WORK 5" << endl;
-    cout << "       VARIANT 11" << endl;
+    cout << "       ЛАБОРАТОРНАЯ РАБОТА 5" << endl;
     cout << "========================================" << endl;
 
     // =================================================

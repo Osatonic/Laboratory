@@ -30,12 +30,14 @@ private:
 public:
     List();
     List(const List& other);
+    List(List&& other);
     ~List();
 
     void Input();
     void Print() const;
 
-    List& operator=(const List& other);
+    //List& operator=(const List& other);
+    List& operator=(List&& other);
 
     // Доступ к элементу списка по индексу.
     char& operator[](int index);
